@@ -30,7 +30,7 @@ else:
 
     df = df.drop(columns=["YM"])
 
-    X = df.drop(columns=["Production_Tonnes"])
+    X = df.drop(columns=["Production_Tonnes"],axis=1)
     y = df["Production_Tonnes"]
 
     categorical_features = ["District", "Commodity"]
