@@ -28,7 +28,7 @@ else:
     df["sin_month"] = np.sin(2 * np.pi * df["Month"] / 12)
     df["cos_month"] = np.cos(2 * np.pi * df["Month"] / 12)
 
-    df = df.drop(columns=["YM"])
+    df = df.drop(columns=["YM"],axis=1)
 
     X = df.drop(columns=["Production_Tonnes"],axis=1)
     y = df["Production_Tonnes"]
