@@ -15,7 +15,7 @@ import Population_Prediction as pp
 
 if os.path.exists("Total_Demand_Prediction_Trained_Model.pkl"):
     pipeline = joblib.load("Total_Demand_Prediction_Trained_Model.pkl")
-#else:
+else:
     df = pd.read_csv("total_demand.csv")
 
     """print("Dataset Preview")
