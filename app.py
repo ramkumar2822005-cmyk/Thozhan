@@ -61,11 +61,15 @@ def login_user(username, password):
     return False
 
 def get_all_data():
-    conn = get_connection()
-    query = "SELECT * FROM registrations"
-    df = pd.read_sql(query, conn)
-    conn.close()
-    return df
+    try:
+        conn = get_connection()
+        query = "SELECT * FROM registrations"
+        df = pd.read_sql(query, conn)
+        conn.close()
+        return df
+    except Exception as e:
+        st.error(f"DB Error: {e}")
+        return pd.DataFrame()
 
 def registration(username, district, farmer_name, farmer_ph, crop, area, sd, hd, production):
     conn = get_connection()
