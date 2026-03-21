@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 if os.path.exists('Price_Prediiction_Trained_model.pkl'):
     pipeline = joblib.load('Price_Prediiction_Trained_model.pkl')
-else:
+#else:
     df = pd.read_csv('Price_Analysis.csv')
 
     X = df.drop(columns=['Avg_Price'])
