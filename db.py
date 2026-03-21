@@ -11,7 +11,3 @@ def get_connection():
         database=os.getenv("MYSQLDATABASE"),
         port=int(os.getenv("MYSQLPORT"))
     )
-
-conn = get_connection()
-print("Connected to Railway DB!")
-conn.close()
