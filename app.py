@@ -130,8 +130,7 @@ if not st.session_state.logged_in:
 
 if st.session_state.logged_in:
     st.set_page_config(page_title="Crop AI Dashboard",layout="wide")
-    st.header("Thozhan....")
-    st.sidebar.success(f"Welcome {st.session_state.username}")
+    st.sidebar.success(f"🌾 Thozhan {st.session_state.username}")
     st.sidebar.title("Navigation bar")
     if "pred_reg" not in st.session_state:
         st.session_state.pred_reg = False
