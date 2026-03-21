@@ -55,4 +55,4 @@ def Price_prediction(District,Commodity,Population_million,Production_Tonnes):
     result = pipeline.predict(input_df)
     return round(result[0],2)
 
-print(Price_prediction("Theni","Ground Nut",85.3,1200))
+#print(Price_prediction("Theni","Ground Nut",85.3,1200))
