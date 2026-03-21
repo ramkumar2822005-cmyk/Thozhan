@@ -11,10 +11,7 @@ import Crop_Production_Prediction as cpp
 import Total_Demand_Prediction as tdp
 import Price_Prediction as pp
 import Population_Prediction as pop_predict
-st.write("connecting to db")
 from db import get_connection
-
-st.write("🚀 App started")
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -26,7 +23,6 @@ def check_password(password, hashed):
     return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def register_user(username, password):
-    st.write("inside register_user")
     conn = get_connection()
     st.write("connected")
     cursor = conn.cursor()
