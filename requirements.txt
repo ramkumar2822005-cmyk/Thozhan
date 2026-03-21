@@ -1,0 +1,11 @@
+streamlit
+pandas
+matplotlib
+scikit-learn
+numpy
+xgboost
+joblib
+bcrypt
+plotly
+mysql-connector-python
+python-dotenv
