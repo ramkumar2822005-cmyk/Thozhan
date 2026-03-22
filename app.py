@@ -293,7 +293,8 @@ if st.session_state.logged_in:
                 sd = str(sd)
 
                 hd = cdp.Duration(crop, sd)
-                if hd <= "2031-12-31": # this condition is because now we are using pre-computed demand data. So, it is limited.
+                ldate = pd.to_datetime("2031-12-31").date()
+                if hd <= ldate: # this condition is because now we are using pre-computed demand data. So, it is limited.
                     rainfall = rp.Rainfall_Pred(sd, hd)
                     yld = cyp.pred(crop, rainfall)
                     production = round(cpp.production(yld, area),2)
