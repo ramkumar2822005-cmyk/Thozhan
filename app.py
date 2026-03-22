@@ -8,7 +8,7 @@ import Crop_Duration_Prediction as cdp
 import RainFall_Prediction as rp
 import Crop_Yield_Prediction as cyp
 import Crop_Production_Prediction as cpp
-import Total_Demand_Prediction as tdp
+import Total_Demand_Prediction as tdp         # in this model there are some changes 
 import Price_Prediction as pp
 import Population_Prediction as pop_predict
 from db import get_connection
@@ -251,7 +251,7 @@ if st.session_state.logged_in:
                 yld = cyp.pred(crop, rainfall)
                 production = round(cpp.production(yld, area),2)
 
-                actual_demand = tdp.demand(district, crop, hd)
+                actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
                 population = pop_predict.Population(pd.to_datetime(hd).year)
                 price = pp.Price_prediction(district, crop, population, production)
 
