@@ -293,59 +293,61 @@ if st.session_state.logged_in:
                 sd = str(sd)
 
                 hd = cdp.Duration(crop, sd)
-                rainfall = rp.Rainfall_Pred(sd, hd)
-                yld = cyp.pred(crop, rainfall)
-                production = round(cpp.production(yld, area),2)
-
-                actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
-                population = pop_predict.Population(pd.to_datetime(hd).year)
-                price = pp.Price_prediction(district, crop, population, production)
-
-                total_price = round(production * (price * 10), 2)
-
-                # -------- Display -------- #
-                st.subheader("📊 Results")
-
-                col1, col2 = st.columns(2)
-
-                col1.metric("Harvest Date", str(hd))
-                col1.metric("Rainfall (in mm)", round(rainfall,2))
-                col1.metric("Yield (in Tonnes)", yld)
-
-                col2.metric("Production (in Tonnes)", production)
-                col2.metric("Demand (in Tonnes)", actual_demand)
-                col2.metric("Price / Quintal", f"₹ {price}")
-
-                st.success(f"💰 Estimated Total Price: ₹ {total_price}")
-
-                #st.pyplot(estimated_sutitution(district,crop,hd,production,actual_demand))
-                
-                estimated_sutitution(district,crop,hd,production,actual_demand)
-                
-                st.subheader("**Do you want to register?**")
-                
-                # Show button ONLY if not clicked yet
-                if not st.session_state.register_clicked:
-                    if (st.session_state.ch or st.button("Yes")):
-                        st.session_state.ch = True
-                        col1 , col2 = st.columns(2)
-                        farmer_name = col1.text_input("Farmer name")
-                        farmer_ph = col2.text_input("Phone Number", placeholder="e.g., 9876543210")
+                if hd <= "2031-12-31": # this condition is because now we are using pre-computed demand data. So, it is limited.
+                    rainfall = rp.Rainfall_Pred(sd, hd)
+                    yld = cyp.pred(crop, rainfall)
+                    production = round(cpp.production(yld, area),2)
+    
+                    actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
+                    population = pop_predict.Population(pd.to_datetime(hd).year)
+                    price = pp.Price_prediction(district, crop, population, production)
+    
+                    total_price = round(production * (price * 10), 2)
+    
+                    # -------- Display -------- #
+                    st.subheader("📊 Results")
+    
+                    col1, col2 = st.columns(2)
+    
+                    col1.metric("Harvest Date", str(hd))
+                    col1.metric("Rainfall (in mm)", round(rainfall,2))
+                    col1.metric("Yield (in Tonnes)", yld)
+    
+                    col2.metric("Production (in Tonnes)", production)
+                    col2.metric("Demand (in Tonnes)", actual_demand)
+                    col2.metric("Price / Quintal", f"₹ {price}")
+    
+                    st.success(f"💰 Estimated Total Price: ₹ {total_price}")
+    
+                    #st.pyplot(estimated_sutitution(district,crop,hd,production,actual_demand))
+                    
+                    estimated_sutitution(district,crop,hd,production,actual_demand)
+                    
+                    st.subheader("**Do you want to register?**")
+                    
+                    # Show button ONLY if not clicked yet
+                    if not st.session_state.register_clicked:
+                        if (st.session_state.ch or st.button("Yes")):
+                            st.session_state.ch = True
+                            col1 , col2 = st.columns(2)
+                            farmer_name = col1.text_input("Farmer name")
+                            farmer_ph = col2.text_input("Phone Number", placeholder="e.g., 9876543210")
+                            
+                            # Optional: Basic validation using regex (this is a simple example)
+                            if re.fullmatch(r"\d{9,10}$", farmer_ph):
+                                c1, c2, c3 = st.columns([1,2,1])
+                                if c2.button("Submit",use_container_width=True):
+                                    st.session_state.register_clicked = True
+                                    registration(st.session_state.username, district, farmer_name, farmer_ph, crop, area, sd, hd, production)
+                                    st.session_state.ch = False
+                                    st.success("Successfully registered!!!")
+                            else:
+                                st.error("Invalid format.")
                         
-                        # Optional: Basic validation using regex (this is a simple example)
-                        if re.fullmatch(r"\d{9,10}$", farmer_ph):
-                            c1, c2, c3 = st.columns([1,2,1])
-                            if c2.button("Submit",use_container_width=True):
-                                st.session_state.register_clicked = True
-                                registration(st.session_state.username, district, farmer_name, farmer_ph, crop, area, sd, hd, production)
-                                st.session_state.ch = False
-                                st.success("Successfully registered!!!")
-                        else:
-                            st.error("Invalid format.")
-                        
+                    else:
+                        st.success("✅ Already registered!")
                 else:
-                    st.success("✅ Already registered!")
-
+                    st.error(f"You can predict the demand only if the harvest period is less than 2031-12-31 (now your harvest period is {hd}}")
             except Exception as e:
                 st.error(f"Error: {e}")
     
