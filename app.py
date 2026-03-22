@@ -347,7 +347,7 @@ if st.session_state.logged_in:
                     else:
                         st.success("✅ Already registered!")
                 else:
-                    st.error(f"You can predict the demand only if the harvest period is less than 2031-12-31 (now your harvest period is {hd}}")
+                    st.error(f"You can predict the demand only if the harvest period is less than 2031-12-31 (now your harvest period is {hd})")
             except Exception as e:
                 st.error(f"Error: {e}")
     
