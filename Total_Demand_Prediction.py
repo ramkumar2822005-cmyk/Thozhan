@@ -15,7 +15,7 @@ import Population_Prediction as pp
 
 if os.path.exists("Total_Demand_Prediction_Trained_Model.pkl"):
     pipeline = joblib.load("Total_Demand_Prediction_Trained_Model.pkl")
-#else:                                          # take the '#' before else to make it as runtime prediction model and in (app.py) change line 254 
+#else:                             # take the '#' before else to make it as runtime prediction model and in (app.py) change line 300 
     df = pd.read_csv("total_demand.csv")
 
     """print("Dataset Preview")
@@ -114,8 +114,9 @@ def demand_csv(district,crop,date):
     df = pd.read_csv("Precomputed_demand.csv")
     hd = str(date)[:7]
     return df[(df["District"]==district) & 
-              (df["Commodity"]==crop) & 
-              (df["Hd"]==hd)]["Demand"].values[0]
+                  (df["Commodity"]==crop) & 
+                  (df["Hd"]==hd)]["Demand"].values[0]
+        
 
 
 """print(predict_production("Madurai","Mango","2024-01-01",3.2))
