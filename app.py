@@ -70,8 +70,7 @@ def register_user(username, password):
     cursor = conn.cursor()
 
     cursor.execute("SELECT username FROM users WHERE username=%s",(username,))
-    result = cursor.fetchone()
-    
+    result = cursor.fetchone()    
 
     if result:
         conn.close()
