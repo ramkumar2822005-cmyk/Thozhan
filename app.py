@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import re
 import bcrypt
+import base64
 import plotly.express as px
 import Crop_Duration_Prediction as cdp
 import RainFall_Prediction as rp
@@ -12,6 +13,47 @@ import Total_Demand_Prediction as tdp         # in this model there are some cha
 import Price_Prediction as pp
 import Population_Prediction as pop_predict
 from db import get_connection
+
+st.set_page_config(page_title="Thozhan Dashboard", layout="wide")
+
+def set_bg_local(image_file):
+    with open(image_file, "rb") as f:
+        data = base64.b64encode(f.read()).decode()
+
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{data}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+def blur():
+     st.markdown("""
+        <style>
+        .block-container {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+def clear_bg():
+    st.markdown("""
+        <style>
+        .stApp {
+            background: none !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -105,6 +147,8 @@ def estimated_sutitution(district, crop, hd, production, actual_demand):
     #return tdp.demand_chart(crop, actual_demand, current_fullfill, production)
 
 if not st.session_state.logged_in:
+    set_bg_local("bg.jpg")
+    blur()
     menu = ["Login", "Register"]
     choice = st.sidebar.selectbox("Menu", menu)
 
@@ -134,7 +178,8 @@ if not st.session_state.logged_in:
                 st.error("Invalid credentials")
 
 if st.session_state.logged_in:
-    st.set_page_config(page_title="Crop AI Dashboard",layout="wide")
+    st.set_page_config(page_title="Thozhan Dashboard",layout="wide")
+    set_bg_local("bg.jpg")
     st.sidebar.success(f"🌾 Thozhan {st.session_state.username}")
     st.sidebar.title("Navigation bar")
     if "pred_reg" not in st.session_state:
@@ -190,6 +235,7 @@ if st.session_state.logged_in:
     df = get_all_data()    
     
     if st.session_state.pred_reg:
+        clear_bg()
         st.header("Crop Production prediction and Registration")
 
         district_list = ['Ariyalur', 'Chengalpattu', 'Chennai', 'Coimbatore', 'Cuddalore', 'Dharmapuri', 'Dindigul', 'Erode', 
@@ -304,6 +350,7 @@ if st.session_state.logged_in:
                 st.error(f"Error: {e}")
     
     if st.session_state.analysis:
+        clear_bg()
         st.header("📊 Analysis Dashboard")
         if st.session_state.username != 'admin':
             df = df[df['username']==st.session_state.username]
@@ -358,12 +405,14 @@ if st.session_state.logged_in:
     
     if st.session_state.username == "admin":
         if st.session_state.admin_panel:
+            clear_bg()
             st.header("🛠 Admin Panel")
             st.subheader("Database")
             st.dataframe(df)  # all users data
 
     else:
         if st.session_state.my_activity:
+            clear_bg()
             st.subheader("👤 My Activity")
             user_df = df[df["username"] == st.session_state.username]
             st.dataframe(user_df)
