@@ -1,4 +1,4 @@
-# **Project Thozhan**
+# **Project - Thozhan**
 # 🌾 AI-Based Crop Intelligence System
 
 An end-to-end **Data Science & Machine Learning project** that predicts crop yield, production, demand, and pricing, along with an interactive analytics dashboard for agricultural insights.
