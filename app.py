@@ -145,6 +145,25 @@ def estimated_sutitution(district, crop, hd, production, actual_demand):
     st.plotly_chart(tdp.demand_chart(crop=crop,demand=actual_demand,current=current_fullfill,new_prod=production), use_container_width=True)
     #return tdp.demand_chart(crop, actual_demand, current_fullfill, production)
 
+def c_r(district, crop, hd):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    hd_month = str(hd)[:7]
+    cursor.execute("""
+        SELECT SUM(production) 
+        FROM registrations
+        WHERE district = %s 
+        AND crop = %s 
+        AND harvest_date = %s
+    """, (district, crop, hd_month))
+    result = cursor.fetchone()
+    conn.close()
+
+    current_fullfill = float(result[0]) if result[0] is not None else 0
+    return current_fullfill
+
+
 if not st.session_state.logged_in:
     set_bg_local("bg.jpg")
     blur()
@@ -300,7 +319,7 @@ if st.session_state.logged_in:
     
                     actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
                     population = pop_predict.Population(pd.to_datetime(hd).year)
-                    price = pp.Price_prediction(district, crop, population, production)
+                    price = pp.Price_prediction(district, crop, population, production + c_r(district ,crop, hd))
     
                     total_price = round(production * (price * 10), 2)
     
@@ -347,7 +366,7 @@ if st.session_state.logged_in:
                     else:
                         st.success("✅ Already registered!")
                 else:
-                    st.error(f"You can predict the demand only if the harvest period is less than 2031-12-31 (now your harvest period is {hd})")
+                    st.error(f"You can predict the demand only if the harvest period is before 2031-12-31 (now your harvest period is {hd})")
             except Exception as e:
                 st.error(f"Error: {e}")
     
