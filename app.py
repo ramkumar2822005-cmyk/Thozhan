@@ -170,7 +170,7 @@ if not st.session_state.logged_in:
         if st.button("Login"):
             if login_user(user, password):
                 st.session_state.logged_in = True
-                st.session_state.username = user
+                st.session_state.username = user.lower()
                 st.success("Logged in successfully!")
                 st.rerun()
             else:
