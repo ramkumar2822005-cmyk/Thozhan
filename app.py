@@ -176,7 +176,13 @@ if not st.session_state.logged_in:
         new_pass = st.text_input("Password", type="password")
         
         if st.button("Register"):
-            if register_user(new_user, new_pass):
+            if new_user == "" and new_pass == "":
+                st.error("Please enter username and password")
+            elif new_user == "" and new_pass != "":
+                st.error("Please enter username")
+            elif new_user != "" and new_pass == "":
+                st.error("Please enter password")
+            elif register_user(new_user, new_pass):
                 st.success("Account created!")
             else:
                 st.error("Account already exist...")
@@ -187,7 +193,13 @@ if not st.session_state.logged_in:
         password = st.text_input("Password", type="password")
         
         if st.button("Login"):
-            if login_user(user, password):
+            if user == "" and password == "":
+                st.error("Please enter username and Password")
+            elif new_user == "" and new_pass != "":
+                st.error("Please enter username")
+            elif new_user != "" and new_pass == "":
+                st.error("Please enter password")
+            elif login_user(user, password):
                 st.session_state.logged_in = True
                 st.session_state.username = user.lower()
                 st.success("Logged in successfully!")
