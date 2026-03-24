@@ -176,11 +176,11 @@ if not st.session_state.logged_in:
         new_pass = st.text_input("Password", type="password")
         
         if st.button("Register"):
-            if new_user == "" and new_pass == "":
+            if (not new_user.strip()) and (not new_pass.strip()):
                 st.error("Please enter username and password")
-            elif new_user == "" and new_pass != "":
+            elif not new_user.strip():
                 st.error("Please enter username")
-            elif new_user != "" and new_pass == "":
+            elif not new_pass.strip():
                 st.error("Please enter password")
             elif register_user(new_user, new_pass):
                 st.success("Account created!")
@@ -193,11 +193,11 @@ if not st.session_state.logged_in:
         password = st.text_input("Password", type="password")
         
         if st.button("Login"):
-            if user == "" and password == "":
+            if (not user.srtip()) and (not password.strip()):
                 st.error("Please enter username and Password")
-            elif new_user == "" and new_pass != "":
+            elif not user.strip():
                 st.error("Please enter username")
-            elif new_user != "" and new_pass == "":
+            elif not password.strip():
                 st.error("Please enter password")
             elif login_user(user, password):
                 st.session_state.logged_in = True
@@ -365,7 +365,7 @@ if st.session_state.logged_in:
                             farmer_ph = col2.text_input("Phone Number", placeholder="e.g., 9876543210")
                             
                             # Optional: Basic validation using regex (this is a simple example)
-                            if re.fullmatch(r"\d{9,10}$", farmer_ph):
+                            if re.fullmatch(r"\d{9,10}$", farmer_ph) and farmer_name.strip():
                                 c1, c2, c3 = st.columns([1,2,1])
                                 if c2.button("Submit",use_container_width=True):
                                     st.session_state.register_clicked = True
