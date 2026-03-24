@@ -193,7 +193,7 @@ if not st.session_state.logged_in:
         password = st.text_input("Password", type="password")
         
         if st.button("Login"):
-            if (not user.srtip()) and (not password.strip()):
+            if (not user.strip()) and (not password.strip()):
                 st.error("Please enter username and Password")
             elif not user.strip():
                 st.error("Please enter username")
