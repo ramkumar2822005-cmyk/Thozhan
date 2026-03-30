@@ -275,7 +275,7 @@ if st.session_state.logged_in:
                         'Thirupathur', 'Thirupur', 'Thiruvannamalai', 'Thiruvarur', 'Thiruvellore', 'Tuticorin', 'Vellore', 
                         'Villupuram', 'Virudhunagar']
         crop_list = ['Alasande Gram', 'Amaranthus', 'Ambada Seed', 'Areca Nut', 'Ash Gourd', 'Avarai', 'Banana', 'Barley', 
-                    'Beans', 'Beetroot', 'Bengal Gram', 'Betal Leaves', 'Big Gram', 'Bitter Gourd', 'Black Gram', 'Black pepper', 
+                    'Beans', 'Beetroot', 'Bengal Gram', 'Betal Leaves', 'Big Gram', 'Bitter Gourd', 'Black Gram', 'Black Pepper', 
                     'Bottle Gourd', 'Brinjal', 'Cabbage', 'Capsicum', 'Cardamoms', 'Carrot', 'Cashewnuts', 'Castor Oil', 
                     'Castor Seed', 'Cauliflower', 'Chickpeas White', 'Chilli', 'Chow Chow', 'Chrysanthemum', 'Cluster beans', 
                     'Coconut', 'Coffee', 'Colacasia', 'Copra', 'Coriander', 'Cotton', 'Cucumber', 'Cumbu', 'Custard Apple', 
