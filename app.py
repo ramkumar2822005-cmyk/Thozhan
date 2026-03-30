@@ -322,24 +322,24 @@ if st.session_state.logged_in:
             try:
                 sd = str(sd)
 
-                st.success("Duration in process")
+                #st.success("Duration in process")
                 hd = cdp.Duration(crop, sd)
-                st.success("Duration executed")
+                #st.success("Duration executed")
                 ldate = pd.to_datetime("2031-12-31").date()
                 if hd <= ldate: # this condition is because now we are using pre-computed demand data. So, it is limited.
                     rainfall = rp.Rainfall_Pred(sd, hd)
-                    st.success("rainfall prediction executed")
+                    #st.success("rainfall prediction executed")
                     yld = cyp.pred(crop, rainfall)
-                    st.success("yield executed")
+                    #st.success("yield executed")
                     production = round(cpp.production(yld, area),2)
-                    st.success("production executed")
+                    #st.success("production executed")
     
                     actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
-                    st.success("demand executed")
+                    #st.success("demand executed")
                     population = pop_predict.Population(pd.to_datetime(hd).year)
-                    st.success("population executed")
+                    #st.success("population executed")
                     price = pp.Price_prediction(district, crop, population, production + c_r(district ,crop, hd))
-                    st.success("Price prediction executed")
+                    #st.success("Price prediction executed")
                     
                     total_price = round(production * (price * 10), 2)
     
