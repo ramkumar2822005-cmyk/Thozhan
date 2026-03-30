@@ -34,8 +34,8 @@ def set_bg_local(image_file):
         unsafe_allow_html=True
     )
 
-def blur():
-     st.markdown("""
+def blur(c):
+     c.markdown("""
         <style>
         .block-container {
             background: rgba(0, 0, 0, 0.1);
@@ -166,12 +166,12 @@ def c_r(district, crop, hd):
 
 if not st.session_state.logged_in:
     set_bg_local("bg.jpg")
-    blur()
     menu = ["Login", "Register"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Register":
         col1, col2, col3 = st.columns(3)
+        blur(col2)
         col2.subheader("Create Account")
         new_user = col2.text_input("Username")
         new_pass = col2.text_input("Password", type="password")
@@ -190,6 +190,7 @@ if not st.session_state.logged_in:
 
     elif choice == "Login":
         col1, col2, col3 = st.columns(3)
+        blur(col2)
         col2.subheader("Login")
         user = col2.text_input("Username")
         password = col2.text_input("Password", type="password")
