@@ -34,17 +34,8 @@ def set_bg_local(image_file):
         unsafe_allow_html=True
     )
 
-def blur(c):
-     c.markdown("""
-        <style>
-        .block-container {
-            background: rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-        }
-        </style>
-        """, unsafe_allow_html=True)
+def local_css(css_code):
+    st.markdown(f"<style>{css_code}</style>", unsafe_allow_html=True)
 
 def clear_bg():
     st.markdown("""
@@ -163,6 +154,14 @@ def c_r(district, crop, hd):
     current_fullfill = float(result[0]) if result[0] is not None else 0
     return current_fullfill
 
+custom_css = """
+.st-key-blurred_col_container {
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    padding: 20px;
+    border-radius: 10px;
+}
+"""
 
 if not st.session_state.logged_in:
     set_bg_local("bg.jpg")
@@ -171,44 +170,48 @@ if not st.session_state.logged_in:
 
     if choice == "Register":
         col1, col2, col3 = st.columns(3)
-        blur(col2)
-        col2.subheader("Create Account")
-        new_user = col2.text_input("Username")
-        new_pass = col2.text_input("Password", type="password")
-        
-        if col2.button("Register",width=150):
-            if (not new_user.strip()) and (not new_pass.strip()):
-                col2.error("Please enter username and password")
-            elif not new_user.strip():
-                col2.error("Please enter username")
-            elif not new_pass.strip():
-                col2.error("Please enter password")
-            elif register_user(new_user, new_pass):
-                col2.success("Account created!")
-            else:
-                col2.error("Account already exist...")
+        with col2:
+            local_css(custom_css)
+            with st.container(key="blurred_col_container"):
+                st.subheader("Create Account")
+                new_user = st.text_input("Username")
+                new_pass = st.text_input("Password", type="password")
+                
+                if st.button("Register",width=150):
+                    if (not new_user.strip()) and (not new_pass.strip()):
+                        st.error("Please enter username and password")
+                    elif not new_user.strip():
+                        st.error("Please enter username")
+                    elif not new_pass.strip():
+                        st.error("Please enter password")
+                    elif register_user(new_user, new_pass):
+                        st.success("Account created!")
+                    else:
+                        st.error("Account already exist...")
 
     elif choice == "Login":
         col1, col2, col3 = st.columns(3)
-        blur(col2)
-        col2.subheader("Login")
-        user = col2.text_input("Username")
-        password = col2.text_input("Password", type="password")
-        
-        if col2.button("Login",width=150):
-            if (not user.strip()) and (not password.strip()):
-                col2.error("Please enter username and Password")
-            elif not user.strip():
-                col2.error("Please enter username")
-            elif not password.strip():
-                col2.error("Please enter password")
-            elif login_user(user, password):
-                col2.session_state.logged_in = True
-                col2.session_state.username = user.lower()
-                col2.success("Logged in successfully!")
-                col2.rerun()
-            else:
-                col2.error("Invalid credentials")
+        with col2:
+            local_css(custom_css)
+            with st.container(key="blurred_col_container"):
+                st.subheader("Login")
+                user = st.text_input("Username")
+                password = st.text_input("Password", type="password")
+                
+                if st.button("Login",width=150):
+                    if (not user.strip()) and (not password.strip()):
+                        st.error("Please enter username and Password")
+                    elif not user.strip():
+                        st.error("Please enter username")
+                    elif not password.strip():
+                        st.error("Please enter password")
+                    elif login_user(user, password):
+                        st.session_state.logged_in = True
+                        st.session_state.username = user.lower()
+                        st.success("Logged in successfully!")
+                        st.rerun()
+                    else:
+                        st.error("Invalid credentials")
 
 if st.session_state.logged_in:
     st.set_page_config(page_title="Thozhan Dashboard",layout="wide")
