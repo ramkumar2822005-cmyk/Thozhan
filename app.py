@@ -171,41 +171,43 @@ if not st.session_state.logged_in:
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Register":
-        st.subheader("Create Account")
-        new_user = st.text_input("Username")
-        new_pass = st.text_input("Password", type="password")
+        col1, col2, col3 = st.columns(3)
+        col2.subheader("Create Account")
+        new_user = col2.text_input("Username")
+        new_pass = col2.text_input("Password", type="password")
         
-        if st.button("Register"):
+        if st.button("Register",width=150):
             if (not new_user.strip()) and (not new_pass.strip()):
-                st.error("Please enter username and password")
+                col2.error("Please enter username and password")
             elif not new_user.strip():
-                st.error("Please enter username")
+                col2.error("Please enter username")
             elif not new_pass.strip():
-                st.error("Please enter password")
+                col2.error("Please enter password")
             elif register_user(new_user, new_pass):
-                st.success("Account created!")
+                col2.success("Account created!")
             else:
-                st.error("Account already exist...")
+                col2.error("Account already exist...")
 
     elif choice == "Login":
-        st.subheader("Login")
-        user = st.text_input("Username")
-        password = st.text_input("Password", type="password")
+        col1, col2, col3 = st.columns(3)
+        col2.subheader("Login")
+        user = col2.text_input("Username")
+        password = col2.text_input("Password", type="password")
         
-        if st.button("Login"):
+        if st.button("Login",width=150):
             if (not user.strip()) and (not password.strip()):
-                st.error("Please enter username and Password")
+                col2.error("Please enter username and Password")
             elif not user.strip():
-                st.error("Please enter username")
+                col2.error("Please enter username")
             elif not password.strip():
-                st.error("Please enter password")
+                col2.error("Please enter password")
             elif login_user(user, password):
-                st.session_state.logged_in = True
-                st.session_state.username = user.lower()
-                st.success("Logged in successfully!")
-                st.rerun()
+                col2.session_state.logged_in = True
+                col2.session_state.username = user.lower()
+                col2.success("Logged in successfully!")
+                col2.rerun()
             else:
-                st.error("Invalid credentials")
+                col2.error("Invalid credentials")
 
 if st.session_state.logged_in:
     st.set_page_config(page_title="Thozhan Dashboard",layout="wide")
