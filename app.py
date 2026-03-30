@@ -328,24 +328,16 @@ if st.session_state.logged_in:
             try:
                 sd = str(sd)
 
-                #st.success("Duration in process")
                 hd = cdp.Duration(crop, sd)
-                #st.success("Duration executed")
                 ldate = pd.to_datetime("2031-12-31").date()
                 if hd <= ldate: # this condition is because now we are using pre-computed demand data. So, it is limited.
                     rainfall = rp.Rainfall_Pred(sd, hd)
-                    #st.success("rainfall prediction executed")
                     yld = cyp.pred(crop, rainfall)
-                    #st.success("yield executed")
                     production = round(cpp.production(yld, area),2)
-                    #st.success("production executed")
     
                     actual_demand = tdp.demand_csv(district, crop, hd) # tdp.demand(district, crop, hd)
-                    #st.success("demand executed")
                     population = pop_predict.Population(pd.to_datetime(hd).year)
-                    #st.success("population executed")
                     price = pp.Price_prediction(district, crop, population, production + c_r(district ,crop, hd))
-                    #st.success("Price prediction executed")
                     
                     total_price = round(production * (price * 10), 2)
     
@@ -370,15 +362,15 @@ if st.session_state.logged_in:
                     
                     st.subheader("**Do you want to register?**")
                     
-                    # Show button ONLY if not clicked yet
+                    # Shows button ONLY if not clicked yet
                     if not st.session_state.register_clicked:
-                        if (st.session_state.ch or st.button("Yes")):
+                        if (st.session_state.ch or st.button("Yes",width=100)):
                             st.session_state.ch = True
                             col1 , col2 = st.columns(2)
                             farmer_name = col1.text_input("Farmer name")
                             farmer_ph = col2.text_input("Phone Number", placeholder="e.g., 9876543210")
                             
-                            # Optional: Basic validation using regex (this is a simple example)
+                            #validation using regex
                             if re.fullmatch(r"\d{9,10}$", farmer_ph) and farmer_name.strip():
                                 c1, c2, c3 = st.columns([1,2,1])
                                 if c2.button("Submit",use_container_width=True):
