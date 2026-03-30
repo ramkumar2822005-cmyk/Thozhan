@@ -176,7 +176,7 @@ if not st.session_state.logged_in:
         new_user = col2.text_input("Username")
         new_pass = col2.text_input("Password", type="password")
         
-        if st.button("Register",width=150):
+        if col2.button("Register",width=150):
             if (not new_user.strip()) and (not new_pass.strip()):
                 col2.error("Please enter username and password")
             elif not new_user.strip():
@@ -194,7 +194,7 @@ if not st.session_state.logged_in:
         user = col2.text_input("Username")
         password = col2.text_input("Password", type="password")
         
-        if st.button("Login",width=150):
+        if col2.button("Login",width=150):
             if (not user.strip()) and (not password.strip()):
                 col2.error("Please enter username and Password")
             elif not user.strip():
@@ -465,4 +465,4 @@ if st.session_state.logged_in:
             st.plotly_chart(fig)
 
 else:
-    st.warning("Please login to continue")
+    col2.warning("Please login to continue")
