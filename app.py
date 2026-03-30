@@ -322,6 +322,7 @@ if st.session_state.logged_in:
             try:
                 sd = str(sd)
 
+                st.success("Duration in process")
                 hd = cdp.Duration(crop, sd)
                 st.success("Duration executed")
                 ldate = pd.to_datetime("2031-12-31").date()
