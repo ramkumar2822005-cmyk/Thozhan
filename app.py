@@ -156,7 +156,7 @@ def c_r(district, crop, hd):
 
 custom_css = """
 .st-key-blurred_col_container {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(8px);
     padding: 20px;
     border-radius: 10px;
