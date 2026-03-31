@@ -132,11 +132,12 @@ def estimated_sutitution(district, crop, hd, production, actual_demand):
 
     current_fullfill = float(result[0]) if result[0] is not None else 0
     col1, col2 = st.columns(2)
-    col1.write("Already registered production:", round(current_fullfill,2)," tonnes")
-    if current_fullfill < actual_demand:
-        col2.success("Good decision you can Proceed !")
-    else:
-        col2.warning("Try other crops.... this actually exceeds demand")
+    col1.metric("Already registered production (tonnes):", round(current_fullfill,2))
+    with col2:
+        if current_fullfill < actual_demand:
+            st.success("Good decision you can Proceed !")
+        else:
+            st.warning("Try other crops.... this actually exceeds demand")
     
     # Call existing chart function
     st.plotly_chart(tdp.demand_chart(crop=crop,demand=actual_demand,current=current_fullfill,new_prod=production), use_container_width=True)
