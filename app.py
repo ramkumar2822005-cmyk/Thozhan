@@ -131,7 +131,13 @@ def estimated_sutitution(district, crop, hd, production, actual_demand):
     conn.close()
 
     current_fullfill = float(result[0]) if result[0] is not None else 0
-    st.write("Already registered production:", round(current_fullfill,2)," tonnes")
+    col1, col2 = st.columns(2)
+    col1.write("Already registered production:", round(current_fullfill,2)," tonnes")
+    if current_fullfill < actual_demand:
+        col2.success("Good decision you can Proceed !")
+    else:
+        col2.warning("Try other crops.... this actually exceeds demand")
+    
     # Call existing chart function
     st.plotly_chart(tdp.demand_chart(crop=crop,demand=actual_demand,current=current_fullfill,new_prod=production), use_container_width=True)
     #return tdp.demand_chart(crop, actual_demand, current_fullfill, production)
@@ -312,7 +318,7 @@ if st.session_state.logged_in:
         else:
             sd = col1.date_input("Sowing Date")
 
-        area = col2.number_input("Area (Hectares)", min_value=0.1, step=0.1)
+        area = col2.number_input("Area (Hectares)", min_value=0.1, max_value=500.0, step=0.1)
         c1, c2, c3 = st.columns([1,2,1])
         with c2:
             run_btn = st.button("Run Prediction",use_container_width=True)
@@ -352,7 +358,7 @@ if st.session_state.logged_in:
                     col2.metric("Production (in Tonnes)", production)
                     col2.metric("Demand (in Tonnes)", actual_demand)
                     col2.metric("Price / Quintal", f"₹ {price}")
-    
+                    
                     st.success(f"💰 Estimated Total Price: ₹ {total_price}")
     
                     #st.pyplot(estimated_sutitution(district,crop,hd,production,actual_demand))
@@ -370,7 +376,7 @@ if st.session_state.logged_in:
                             farmer_ph = col2.text_input("Phone Number", placeholder="e.g., 9876543210")
                             
                             #validation using regex
-                            if re.fullmatch(r"\d{9,10}$", farmer_ph) and farmer_name.strip():
+                            if re.fullmatch(r"[6-9]\d{9}", farmer_ph) and farmer_name.strip():
                                 c1, c2, c3 = st.columns([1,2,1])
                                 if c2.button("Submit",use_container_width=True):
                                     st.session_state.register_clicked = True
