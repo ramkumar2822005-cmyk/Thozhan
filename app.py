@@ -214,7 +214,6 @@ if not st.session_state.logged_in:
                         st.error("Invalid credentials")
 
 if st.session_state.logged_in:
-    st.set_page_config(page_title="Thozhan Dashboard",layout="wide")
     set_bg_local("bg.jpg")
     st.sidebar.success(f"🌾 Thozhan {st.session_state.username}")
     st.sidebar.title("Navigation bar")
